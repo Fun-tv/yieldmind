@@ -8,46 +8,45 @@ import { toast } from 'sonner';
 const Chat = () => {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([
-    { role: 'assistant', content: 'Hello! How can I help you with your DeFi strategy today?' }
+    { role: 'assistant', content: 'Welcome to YieldMind AI! Ask me anything about DeFi, yields, and portfolio optimization 🚀' }
   ]);
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
-    
+
     // Add user message to chat
     setChatHistory([...chatHistory, { role: 'user', content: message }]);
-    
-    // Simulate AI response
+
+    // Mock AI response (real API can be plugged here)
     setTimeout(() => {
       setChatHistory(prev => [
-        ...prev, 
-        { 
-          role: 'assistant', 
-          content: 'I\'m analyzing your request about "' + message + '". Based on current market conditions, I recommend exploring liquidity pools on Liquidswap with USDC-APT pairs for stable returns of approximately 7.3% APR with relatively low risk.' 
+        ...prev,
+        {
+          role: 'assistant',
+          content: `Great question about "${message}". YieldMind AI reviews thousands of market signals and top protocols every hour. For instant yield, consider USDC staking, or let me calculate multi-token optimization for you!`
         }
       ]);
-      
-      toast.success('AI response generated', {
-        description: 'New strategy insights available'
+      toast.success('AI generated a suggestion', {
+        description: 'Check below for optimal DeFi strategy.'
       });
-    }, 1000);
-    
+    }, 900);
+
     setMessage('');
   };
 
   return (
-    <PageLayout title="Chat with AI DeFi Agent" subtitle="Ask me anything about DeFi strategies and yield optimization">
+    <PageLayout title="AI Chat Assistant" subtitle="Chat with our AI-powered DeFi expert and optimize your strategy in real time!">
       <Card className="bg-[#151926] rounded-xl p-6 mb-6 flex-1 flex flex-col border border-[#232946]">
         <div className="flex-1 overflow-auto mb-4 space-y-4">
           {chatHistory.map((msg, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div 
+              <div
                 className={`max-w-[80%] p-4 rounded-xl ${
-                  msg.role === 'user' 
-                    ? 'bg-[#232946] text-white' 
+                  msg.role === 'user'
+                    ? 'bg-[#232946] text-white'
                     : 'bg-[#1a1e2e] text-white/80'
                 }`}
               >
@@ -62,12 +61,11 @@ const Chat = () => {
             </div>
           ))}
         </div>
-        
         <div className="flex items-center gap-3 mt-auto">
           <input
             type="text"
             className="bg-[#1a1e2e] border-none outline-none flex-1 text-white text-base py-3 px-4 rounded-xl placeholder:text-white/50"
-            placeholder="Ask about yield strategies..."
+            placeholder="Ask about DeFi, yield, LPs, strategies…"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
@@ -76,9 +74,10 @@ const Chat = () => {
               }
             }}
           />
-          <button 
+          <button
             onClick={handleSendMessage}
-            className="bg-[#232946] hover:bg-[#242e6d]/90 transition p-3 rounded-lg flex items-center">
+            className="bg-defi-accent hover:bg-defi-accent/90 transition p-3 rounded-lg flex items-center"
+          >
             <ArrowRight className="text-white w-5 h-5" />
           </button>
         </div>

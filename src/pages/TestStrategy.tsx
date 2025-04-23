@@ -10,33 +10,31 @@ import YieldForecastChart from '@/components/YieldForecastChart';
 const TestStrategy = () => {
   const [isSimulating, setIsSimulating] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  
+
   const handleSimulate = () => {
     setIsSimulating(true);
-    toast.info('Running simulation', {
-      description: 'Testing your strategy against market conditions'
+    toast.info('Running DeFi simulation...', {
+      description: 'Backtesting your strategy on historical on-chain yield data. Please wait...'
     });
-    
-    // Simulate process
+
     setTimeout(() => {
       setIsSimulating(false);
       setShowResults(true);
       toast.success('Simulation completed', {
-        description: 'View your strategy results below'
+        description: 'Performance and risk analysis are ready.'
       });
-    }, 3000);
+    }, 2750);
   };
 
   return (
-    <PageLayout title="Test Strategy" subtitle="Simulate and backtest custom strategies before deployment">
+    <PageLayout title="Try/Test Your Strategy" subtitle="Backtest your DeFi portfolio and optimize yield before deploying capital.">
       <Card className="bg-[#151926] rounded-xl p-6 mb-6 border border-[#232946]">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <TestTube className="text-defi-accent w-5 h-5" />
-            <h2 className="text-base font-semibold text-white">Strategy Simulator</h2>
+            <h2 className="text-base font-semibold text-white">AI-Powered Strategy Simulator</h2>
           </div>
         </div>
-        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <label className="block text-sm text-white/60 mb-2">Asset Allocation</label>
@@ -47,38 +45,38 @@ const TestStrategy = () => {
                   <span>USDC-APT LP (Liquidswap)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="w-16 bg-[#232946] text-white text-right px-2 py-1 rounded"
                     defaultValue="50"
                   />
                   <span>%</span>
                 </div>
               </div>
-              
+
               <div className="p-3 bg-[#1a1e2e] rounded-lg flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-green-500"></span>
                   <span>APT Staking (PortoStake)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="w-16 bg-[#232946] text-white text-right px-2 py-1 rounded"
                     defaultValue="30"
                   />
                   <span>%</span>
                 </div>
               </div>
-              
+
               <div className="p-3 bg-[#1a1e2e] rounded-lg flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
                   <span>CAKE-BNB LP (PancakeSwap)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="w-16 bg-[#232946] text-white text-right px-2 py-1 rounded"
                     defaultValue="20"
                   />
@@ -87,7 +85,6 @@ const TestStrategy = () => {
               </div>
             </div>
           </div>
-          
           <div>
             <label className="block text-sm text-white/60 mb-2">Simulation Parameters</label>
             <div className="space-y-3">
@@ -98,7 +95,7 @@ const TestStrategy = () => {
                   <ChevronDown size={16} />
                 </div>
               </div>
-              
+
               <div className="p-3 bg-[#1a1e2e] rounded-lg flex justify-between items-center">
                 <span>Market Conditions</span>
                 <div className="flex items-center px-3 py-1.5 bg-[#232946] rounded text-sm gap-1">
@@ -106,13 +103,13 @@ const TestStrategy = () => {
                   <ChevronDown size={16} />
                 </div>
               </div>
-              
+
               <div className="p-3 bg-[#1a1e2e] rounded-lg flex justify-between items-center">
                 <span>Initial Investment</span>
                 <div className="flex items-center gap-2">
                   <span>$</span>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="w-24 bg-[#232946] text-white text-right px-2 py-1 rounded"
                     defaultValue="10,000"
                   />
@@ -121,9 +118,8 @@ const TestStrategy = () => {
             </div>
           </div>
         </div>
-        
         <div className="flex justify-center">
-          <Button 
+          <Button
             onClick={handleSimulate}
             disabled={isSimulating}
             className="bg-defi-accent hover:bg-defi-accent/90 text-white flex items-center gap-2 px-8"
@@ -131,7 +127,7 @@ const TestStrategy = () => {
             {isSimulating ? (
               <>
                 <TestTube className="w-4 h-4 animate-pulse" />
-                <span>Running Simulation...</span>
+                <span>Simulating...</span>
               </>
             ) : (
               <>
@@ -142,11 +138,9 @@ const TestStrategy = () => {
           </Button>
         </div>
       </Card>
-      
       {showResults && (
         <>
           <h2 className="text-lg font-semibold text-white mb-3">Simulation Results</h2>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <Card className="bg-[#151926] rounded-xl p-5 border border-[#232946]">
               <div className="flex items-center gap-2 mb-2">
@@ -156,7 +150,6 @@ const TestStrategy = () => {
               <div className="text-2xl font-bold text-white">9.2%</div>
               <div className="text-xs text-white/60 mt-1">+1.4% vs. current strategy</div>
             </Card>
-            
             <Card className="bg-[#151926] rounded-xl p-5 border border-[#232946]">
               <div className="flex items-center gap-2 mb-2">
                 <BarChart2 className="text-green-500 w-4 h-4" />
@@ -165,7 +158,6 @@ const TestStrategy = () => {
               <div className="text-2xl font-bold text-white">$2,760</div>
               <div className="text-xs text-white/60 mt-1">over 1 year period</div>
             </Card>
-            
             <Card className="bg-[#151926] rounded-xl p-5 border border-[#232946]">
               <div className="flex items-center gap-2 mb-2">
                 <BarChart2 className="text-yellow-500 w-4 h-4" />
@@ -175,9 +167,7 @@ const TestStrategy = () => {
               <div className="text-xs text-white/60 mt-1">Medium risk level</div>
             </Card>
           </div>
-          
           <YieldForecastChart />
-          
           <div className="flex justify-center mt-6">
             <Button className="bg-defi-accent hover:bg-defi-accent/90 text-white px-8">
               Deploy This Strategy
