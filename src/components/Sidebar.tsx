@@ -14,6 +14,8 @@ import {
   File,
   FileText 
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 // Sidebar links configuration
 const links = [
@@ -36,17 +38,30 @@ const links = [
 
 const Sidebar = () => {
   const [activeKey, setActiveKey] = useState('dashboard');
+  const navigate = useNavigate();
 
-  // Highlight on click (no navigation, only style demonstration)
+  // Handle sidebar item click
   function handleSidebarClick(key: string) {
     setActiveKey(key);
+    
+    // Show toast notification for clicked item
+    if (key !== 'dashboard') {
+      toast.info(`Navigating to ${links.find(link => link.key === key)?.label}`, {
+        description: "This feature will be available soon."
+      });
+    }
+
+    // For demonstration, only dashboard is fully implemented
+    if (key === 'dashboard') {
+      navigate('/');
+    }
   }
 
   return (
     <aside className="min-h-screen w-[265px] flex-shrink-0 bg-[#151926] border-r border-white/5 px-0 select-none transition-all shadow-lg">
       <div className="flex flex-col h-full pt-3 pb-8">
         {/* Logo */}
-        <div className="flex gap-3 items-center px-6 py-3 mb-1">
+        <div className="flex gap-3 items-center px-6 py-3 mb-1 cursor-pointer" onClick={() => handleSidebarClick('dashboard')}>
           <span className="rounded-full bg-[#222843] p-2">
             <Brain className="w-6 h-6 text-defi-accent" />
           </span>
