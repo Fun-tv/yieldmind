@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,11 +60,11 @@ export default {
 					dark: '#0E1014',
 					card: '#13151D',
 					accent: '#4361EE',
-					success: '#4ADE80',
-					warning: '#FFA500',
-					danger: '#FF4D4D',
-					text: 'rgba(255, 255, 255, 0.8)',
-					muted: 'rgba(255, 255, 255, 0.6)'
+					text: {
+						primary: 'rgba(255, 255, 255, 0.9)',
+						secondary: 'rgba(255, 255, 255, 0.7)',
+						muted: 'rgba(255, 255, 255, 0.6)'
+					}
 				}
 			},
 			borderRadius: {
@@ -115,5 +114,8 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		require('@tailwindcss/typography')
+	]
 } satisfies Config;

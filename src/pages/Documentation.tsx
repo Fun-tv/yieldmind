@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import PageLayout from '@/components/PageLayout';
 import { Card } from '@/components/ui/card';
@@ -241,7 +240,6 @@ const Documentation = () => {
     setSelectedDoc({ section, id, title });
   };
 
-  // Filter by search query if present
   const filteredSections = searchQuery
     ? documentationSections.map(section => ({
         ...section,
@@ -254,14 +252,13 @@ const Documentation = () => {
   return (
     <PageLayout title="Documentation" subtitle="Comprehensive guides and reference materials">
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Sidebar */}
         <div className="w-full lg:w-72 shrink-0">
           <Card className="bg-[#151926] rounded-xl p-4 border border-[#232946] sticky top-4">
             <div className="flex items-center gap-2 bg-[#1a1e2e] rounded-lg px-3 py-2 mb-4">
               <Search className="w-4 h-4 text-white/60" />
               <input
                 type="text"
-                className="bg-transparent border-none outline-none w-full text-sm text-white placeholder:text-white/40"
+                className="bg-transparent border-none outline-none w-full text-sm text-primary-muted placeholder:text-white/40"
                 placeholder="Search documentation..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -306,7 +303,6 @@ const Documentation = () => {
           </Card>
         </div>
 
-        {/* Main content */}
         <div className="flex-1">
           <Card className="bg-[#151926] rounded-xl p-6 border border-[#232946]">
             {selectedDoc ? (
@@ -319,11 +315,11 @@ const Documentation = () => {
                     <ArrowLeft className="w-4 h-4 text-white/60" />
                   </button>
                   <div>
-                    <div className="text-sm text-white/60">{selectedDoc.section}</div>
+                    <div className="text-sm text-secondary-muted">{selectedDoc.section}</div>
                     <h2 className="text-xl font-bold text-white">{selectedDoc.title}</h2>
                   </div>
                 </div>
-                <div className="prose prose-invert max-w-none">
+                <div className="prose-defi">
                   {docContent[selectedDoc.id] || (
                     <div className="flex items-center justify-center h-60 text-white/40">
                       <FileText className="w-16 h-16" />

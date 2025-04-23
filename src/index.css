@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -111,4 +110,50 @@
 
 .hover\:border-defi-accent:hover {
   border-color: hsl(var(--defi-accent));
+}
+
+@layer utilities {
+  .text-primary-muted {
+    @apply text-white/80 hover:text-white/90 transition-colors;
+  }
+  
+  .text-secondary-muted {
+    @apply text-white/60 hover:text-white/75 transition-colors;
+  }
+  
+  .prose-defi {
+    @apply text-white/80 leading-relaxed tracking-wide;
+  }
+  
+  .prose-defi h1, 
+  .prose-defi h2, 
+  .prose-defi h3 {
+    @apply text-white/90 font-semibold mb-3;
+  }
+  
+  .prose-defi p {
+    @apply mb-4;
+  }
+  
+  .prose-defi ul, 
+  .prose-defi ol {
+    @apply pl-5 mb-4 space-y-2;
+  }
+  
+  .prose-defi li {
+    @apply text-white/75;
+  }
+}
+
+/* Add custom scrollbar for better readability */
+::-webkit-scrollbar {
+  @apply w-2 bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#232946]/50 rounded-full;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }

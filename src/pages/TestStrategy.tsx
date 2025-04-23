@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import PageLayout from '@/components/PageLayout';
 import { Card } from '@/components/ui/card';
@@ -32,12 +31,12 @@ const TestStrategy = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <TestTube className="text-defi-accent w-5 h-5" />
-            <h2 className="text-base font-semibold text-white">AI-Powered Strategy Simulator</h2>
+            <h2 className="text-base font-semibold text-primary-muted">AI-Powered Strategy Simulator</h2>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block text-sm text-white/60 mb-2">Asset Allocation</label>
+            <label className="block text-sm text-secondary-muted mb-2">Asset Allocation</label>
             <div className="space-y-3">
               <div className="p-3 bg-[#1a1e2e] rounded-lg flex justify-between items-center">
                 <div className="flex items-center gap-2">
@@ -86,7 +85,7 @@ const TestStrategy = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-2">Simulation Parameters</label>
+            <label className="block text-sm text-secondary-muted mb-2">Simulation Parameters</label>
             <div className="space-y-3">
               <div className="p-3 bg-[#1a1e2e] rounded-lg flex justify-between items-center">
                 <span>Time Horizon</span>
@@ -145,26 +144,26 @@ const TestStrategy = () => {
             <Card className="bg-[#151926] rounded-xl p-5 border border-[#232946]">
               <div className="flex items-center gap-2 mb-2">
                 <BarChart2 className="text-defi-accent w-4 h-4" />
-                <h3 className="text-sm font-medium text-white">Expected APR</h3>
+                <h3 className="text-sm font-medium text-primary-muted">Expected APR</h3>
               </div>
               <div className="text-2xl font-bold text-white">9.2%</div>
-              <div className="text-xs text-white/60 mt-1">+1.4% vs. current strategy</div>
+              <div className="text-xs text-secondary-muted mt-1">+1.4% vs. current strategy</div>
             </Card>
             <Card className="bg-[#151926] rounded-xl p-5 border border-[#232946]">
               <div className="flex items-center gap-2 mb-2">
                 <BarChart2 className="text-green-500 w-4 h-4" />
-                <h3 className="text-sm font-medium text-white">Projected Yield</h3>
+                <h3 className="text-sm font-medium text-primary-muted">Projected Yield</h3>
               </div>
               <div className="text-2xl font-bold text-white">$2,760</div>
-              <div className="text-xs text-white/60 mt-1">over 1 year period</div>
+              <div className="text-xs text-secondary-muted mt-1">over 1 year period</div>
             </Card>
             <Card className="bg-[#151926] rounded-xl p-5 border border-[#232946]">
               <div className="flex items-center gap-2 mb-2">
                 <BarChart2 className="text-yellow-500 w-4 h-4" />
-                <h3 className="text-sm font-medium text-white">Risk Score</h3>
+                <h3 className="text-sm font-medium text-primary-muted">Risk Score</h3>
               </div>
               <div className="text-2xl font-bold text-white">6.4/10</div>
-              <div className="text-xs text-white/60 mt-1">Medium risk level</div>
+              <div className="text-xs text-secondary-muted mt-1">Medium risk level</div>
             </Card>
           </div>
           <YieldForecastChart />
