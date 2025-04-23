@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { 
   Brain, 
-  ArrowRight, 
   MessageSquare, 
   History, 
   Wallet, 
@@ -14,54 +13,54 @@ import {
   File,
   FileText 
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 
 // Sidebar links configuration
 const links = [
-  { icon: Brain, label: 'AI DeFi Agent', key: 'agent' },
+  { icon: Brain, label: 'AI DeFi Agent', key: 'agent', path: '/' },
   { icon: null, label: '' }, // Divider
-  { icon: null, label: 'Dashboard', key: 'dashboard', active: true },
-  { icon: MessageSquare, label: 'Chat', key: 'chat' },
-  { icon: History, label: 'History', key: 'history' },
-  { icon: Wallet, label: 'Portfolio', key: 'portfolio' },
+  { icon: null, label: 'Dashboard', key: 'dashboard', path: '/' },
+  { icon: MessageSquare, label: 'Chat', key: 'chat', path: '/chat' },
+  { icon: History, label: 'History', key: 'history', path: '/history' },
+  { icon: Wallet, label: 'Portfolio', key: 'portfolio', path: '/portfolio' },
   { icon: null, label: '' }, // Divider
-  { icon: BarChart2, label: 'Strategies', key: 'strategies' },
-  { icon: TrendingUp, label: 'Best yield strategy', key: 'best-yield' },
-  { icon: ArrowUpRight, label: 'Rebalance yields', key: 'rebalance' },
-  { icon: TestTube, label: 'Try test strategy', key: 'test-strategy' },
+  { icon: BarChart2, label: 'Strategies', key: 'strategies', path: '/strategies' },
+  { icon: TrendingUp, label: 'Best yield strategy', key: 'best-yield', path: '/best-yield' },
+  { icon: ArrowUpRight, label: 'Rebalance yields', key: 'rebalance', path: '/rebalance' },
+  { icon: TestTube, label: 'Try test strategy', key: 'test-strategy', path: '/test-strategy' },
   { icon: null, label: '' }, // Divider
-  { icon: BookOpen, label: 'Resources', key: 'resources' },
-  { icon: File, label: 'Tutorials', key: 'tutorials' },
-  { icon: FileText, label: 'Documentation', key: 'documentation' }
+  { icon: BookOpen, label: 'Resources', key: 'resources', path: '/resources' },
+  { icon: File, label: 'Tutorials', key: 'tutorials', path: '/tutorials' },
+  { icon: FileText, label: 'Documentation', key: 'documentation', path: '/documentation' }
 ];
 
 const Sidebar = () => {
-  const [activeKey, setActiveKey] = useState('dashboard');
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Determine active key from current path
+  const currentPath = location.pathname;
+  const activeKey = links.find(link => link.path === currentPath)?.key || 
+                   (currentPath === '/' ? 'dashboard' : '');
 
   // Handle sidebar item click
-  function handleSidebarClick(key: string) {
-    setActiveKey(key);
+  function handleSidebarClick(path: string | undefined, label: string) {
+    if (!path) return;
+    
+    navigate(path);
     
     // Show toast notification for clicked item
-    if (key !== 'dashboard') {
-      toast.info(`Navigating to ${links.find(link => link.key === key)?.label}`, {
-        description: "This feature will be available soon."
-      });
-    }
-
-    // For demonstration, only dashboard is fully implemented
-    if (key === 'dashboard') {
-      navigate('/');
-    }
+    toast.success(`Navigated to ${label}`, {
+      description: "Loading content..."
+    });
   }
 
   return (
     <aside className="min-h-screen w-[265px] flex-shrink-0 bg-[#151926] border-r border-white/5 px-0 select-none transition-all shadow-lg">
       <div className="flex flex-col h-full pt-3 pb-8">
         {/* Logo */}
-        <div className="flex gap-3 items-center px-6 py-3 mb-1 cursor-pointer" onClick={() => handleSidebarClick('dashboard')}>
+        <div className="flex gap-3 items-center px-6 py-3 mb-1 cursor-pointer" onClick={() => handleSidebarClick('/', 'Dashboard')}>
           <span className="rounded-full bg-[#222843] p-2">
             <Brain className="w-6 h-6 text-defi-accent" />
           </span>
@@ -75,14 +74,14 @@ const Sidebar = () => {
           }
           return (
             <button
-              key={item.key}
+              key={item.key || idx}
               className={[
                 "w-full flex items-center gap-3 px-8 py-2.5 rounded-[10px] font-medium transition-all text-left",
                 "hover:bg-[#232946]",
                 activeKey === item.key ? "bg-[#232946] text-white" : "text-white/60",
                 item.key === 'dashboard' && activeKey === item.key && 'font-bold',
               ].join(' ')}
-              onClick={() => handleSidebarClick(item.key!)}
+              onClick={() => handleSidebarClick(item.path, item.label)}
               style={{
                 marginBottom: (item.label === 'Documentation' ? 0 : 2)
               }}
