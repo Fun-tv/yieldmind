@@ -1,9 +1,8 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { 
   Brain, 
-  LayoutDashboard, 
+  ArrowRight, 
   MessageSquare, 
   History, 
   Wallet, 
@@ -13,69 +12,74 @@ import {
   TestTube, 
   BookOpen,
   File,
-  FileText
+  FileText 
 } from 'lucide-react';
 
-const Logo = () => (
-  <div className="flex items-center gap-2 px-2 py-5">
-    <div className="rounded-full bg-defi-accent/20 p-2">
-      <Brain className="w-5 h-5 text-defi-accent" />
-    </div>
-    <span className="text-xl font-bold text-white">YieldMind</span>
-  </div>
-);
-
-const SidebarLink = ({ 
-  icon: Icon, 
-  label, 
-  to, 
-  isActive = false 
-}: { 
-  icon: React.ElementType; 
-  label: string; 
-  to: string; 
-  isActive?: boolean 
-}) => (
-  <Link to={to} className={`sidebar-link ${isActive ? 'active' : ''}`}>
-    <Icon className="w-5 h-5" />
-    <span>{label}</span>
-  </Link>
-);
-
-const SidebarDivider = ({ label }: { label?: string }) => (
-  <div className="mt-6 mb-2 px-3">
-    {label && <h3 className="text-sm font-semibold text-defi-muted">{label}</h3>}
-    {!label && <div className="h-px bg-white/10"></div>}
-  </div>
-);
+// Sidebar links configuration
+const links = [
+  { icon: Brain, label: 'AI DeFi Agent', key: 'agent' },
+  { icon: null, label: '' }, // Divider
+  { icon: null, label: 'Dashboard', key: 'dashboard', active: true },
+  { icon: MessageSquare, label: 'Chat', key: 'chat' },
+  { icon: History, label: 'History', key: 'history' },
+  { icon: Wallet, label: 'Portfolio', key: 'portfolio' },
+  { icon: null, label: '' }, // Divider
+  { icon: BarChart2, label: 'Strategies', key: 'strategies' },
+  { icon: TrendingUp, label: 'Best yield strategy', key: 'best-yield' },
+  { icon: ArrowUpRight, label: 'Rebalance yields', key: 'rebalance' },
+  { icon: TestTube, label: 'Try test strategy', key: 'test-strategy' },
+  { icon: null, label: '' }, // Divider
+  { icon: BookOpen, label: 'Resources', key: 'resources' },
+  { icon: File, label: 'Tutorials', key: 'tutorials' },
+  { icon: FileText, label: 'Documentation', key: 'documentation' }
+];
 
 const Sidebar = () => {
+  const [activeKey, setActiveKey] = useState('dashboard');
+
+  // Highlight on click (no navigation, only style demonstration)
+  function handleSidebarClick(key: string) {
+    setActiveKey(key);
+  }
+
   return (
-    <aside className="w-64 bg-sidebar h-screen flex-shrink-0 overflow-y-auto border-r border-white/5">
-      <div className="px-4">
-        <Logo />
-        
-        <nav className="mt-8 flex flex-col gap-1">
-          <SidebarLink icon={Brain} label="AI DeFi Agent" to="/agent" />
-          <SidebarLink icon={LayoutDashboard} label="Dashboard" to="/" isActive={true} />
-          <SidebarLink icon={MessageSquare} label="Chat" to="/chat" />
-          <SidebarLink icon={History} label="History" to="/history" />
-          <SidebarLink icon={Wallet} label="Portfolio" to="/portfolio" />
-          
-          <SidebarDivider label="Strategies" />
-          <SidebarLink icon={BarChart2} label="Strategies" to="/strategies" />
-          <SidebarLink icon={TrendingUp} label="Best yield strategy" to="/best-yield" />
-          <SidebarLink icon={ArrowUpRight} label="Rebalance yields" to="/rebalance" />
-          <SidebarLink icon={TestTube} label="Try test strategy" to="/test-strategy" />
-          
-          <SidebarDivider label="Resources" />
-          <SidebarLink icon={BookOpen} label="Resources" to="/resources" />
-          <SidebarLink icon={File} label="Tutorials" to="/tutorials" />
-          <SidebarLink icon={FileText} label="Documentation" to="/documentation" />
+    <aside className="min-h-screen w-[265px] flex-shrink-0 bg-[#151926] border-r border-white/5 px-0 select-none transition-all shadow-lg">
+      <div className="flex flex-col h-full pt-3 pb-8">
+        {/* Logo */}
+        <div className="flex gap-3 items-center px-6 py-3 mb-1">
+          <span className="rounded-full bg-[#222843] p-2">
+            <Brain className="w-6 h-6 text-defi-accent" />
+          </span>
+          <span className="font-semibold text-xl text-white tracking-tight font-sans">YieldMind</span>
+        </div>
+        <nav className="flex flex-col mt-2 gap-0">
+        {links.map((item, idx) => {
+          if (!item.icon && !item.key) {
+            // Divider
+            return <div key={idx} className="h-[22px]" />;
+          }
+          return (
+            <button
+              key={item.key}
+              className={[
+                "w-full flex items-center gap-3 px-8 py-2.5 rounded-[10px] font-medium transition-all text-left",
+                "hover:bg-[#232946]",
+                activeKey === item.key ? "bg-[#232946] text-white" : "text-white/60",
+                item.key === 'dashboard' && activeKey === item.key && 'font-bold',
+              ].join(' ')}
+              onClick={() => handleSidebarClick(item.key!)}
+              style={{
+                marginBottom: (item.label === 'Documentation' ? 0 : 2)
+              }}
+            >
+              {item.icon ? <item.icon className="w-[19px] h-[19px] mr-1" /> : <span className="w-[19px] h-[19px]" />}
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
         </nav>
       </div>
     </aside>
   );
 };
-
 export default Sidebar;

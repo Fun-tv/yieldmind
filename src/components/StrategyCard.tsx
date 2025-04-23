@@ -3,24 +3,14 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
-interface BadgeProps {
-  children: React.ReactNode;
-  variant?: 'blue' | 'green' | 'yellow' | 'gray';
-}
-
-const Badge = ({ children, variant = 'blue' }: BadgeProps) => {
+const Badge = ({ children, variant = 'blue' }: { children: React.ReactNode, variant?: 'blue' | 'green' | 'yellow' | 'gray' }) => {
   const variantClass = {
     blue: 'badge-blue',
     green: 'badge-green',
     yellow: 'badge-yellow',
     gray: 'badge-gray',
   };
-  
-  return (
-    <span className={`badge ${variantClass[variant]}`}>
-      {children}
-    </span>
-  );
+  return <span className={`badge ${variantClass[variant]} px-2 py-0.5`}>{children}</span>;
 };
 
 const StrategyCard = () => {
@@ -28,48 +18,43 @@ const StrategyCard = () => {
   const [switchStrategyOpen, setSwitchStrategyOpen] = useState(false);
 
   return (
-    <div className="card">
-      <h2 className="text-xl font-medium mb-2">Liquidity Mining</h2>
-      <p className="text-defi-muted mb-4">
-        Deposit in the USDC–APT pool on Liquidswap
-      </p>
-      
-      <div className="flex justify-between mb-6">
+    <div className="bg-[#151926] rounded-xl px-7 py-6 shadow-lg border border-[#232946]">
+      <h2 className="text-lg font-semibold text-white mb-1">Liquidity Mining</h2>
+      <p className="text-defi-muted mb-3 text-white/40">Deposit in the USDC–APT pool on Liquidswap</p>
+      <div className="flex justify-between items-center mb-5">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-defi-muted">Yield</span>
+          <span className="text-sm text-white/40">Yield</span>
           <Badge variant="blue">7.3% APR</Badge>
         </div>
-        <Badge variant="green">Low Risk</Badge>
+        <Badge variant="green">Low risk</Badge>
       </div>
-      
-      <div className="border-t border-white/10 pt-4">
-        <div className="text-sm text-defi-muted mb-1">Current Strategy</div>
+      <div className="bg-[#222843] rounded-lg px-5 py-3 mb-5">
+        <div className="text-xs text-white/40 mb-0.5">Current Strategy</div>
         <div className="flex justify-between items-center">
-          <div>Farming USDC–APT LP</div>
+          <div className="text-white/80 font-medium">Farming USDC–APT LP</div>
           <div className="flex items-center gap-2">
-            <span className="text-sm">120 tokens</span>
+            <span className="text-sm text-white/80">120 tokens</span>
             <Badge variant="blue">72% APR</Badge>
           </div>
         </div>
       </div>
-      
-      <div className="grid grid-cols-2 gap-3 mt-6">
+      <div className="grid grid-cols-2 gap-3 mt-3">
         <Button
           onClick={() => setWithdrawOpen(true)}
           variant="outline"
-          className="bg-white/5 border border-white/10 hover:bg-white/10"
+          className="rounded-lg border-[#222843] bg-[#222843] text-white hover:bg-[#2E3656] hover:border-defi-accent"
         >
           Withdraw
         </Button>
         <Button
           onClick={() => setSwitchStrategyOpen(true)}
-          variant="default"
-          className="bg-defi-accent hover:bg-defi-accent/90"
+          variant="outline"
+          className="rounded-lg border-[#222843] bg-[#222843] text-white hover:bg-[#2E3656] hover:border-defi-accent"
         >
           Switch Strategy
         </Button>
       </div>
-      
+
       {/* Withdraw Dialog */}
       <Dialog open={withdrawOpen} onOpenChange={setWithdrawOpen}>
         <DialogContent className="bg-defi-card border-white/10 text-white">
@@ -107,7 +92,7 @@ const StrategyCard = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {/* Switch Strategy Dialog */}
       <Dialog open={switchStrategyOpen} onOpenChange={setSwitchStrategyOpen}>
         <DialogContent className="bg-defi-card border-white/10 text-white max-w-xl">
@@ -125,7 +110,7 @@ const StrategyCard = () => {
                 { name: "APT Staking", platform: "Aptos Network", apr: "6.5%", risk: "Low" },
                 { name: "USDC-SOL Pool", platform: "Raydium", apr: "10.3%", risk: "High" }
               ].map((strategy, idx) => (
-                <div 
+                <div
                   key={idx}
                   className="flex justify-between items-center p-3 border border-white/10 rounded-lg hover:bg-white/5 cursor-pointer"
                 >

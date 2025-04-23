@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TrendingUp, ArrowUpRight, LineChart } from 'lucide-react';
+import { TrendingUp, ArrowUpRight, BarChart2 } from 'lucide-react';
 
 interface QuickActionProps {
   icon: React.ReactNode;
@@ -8,45 +8,41 @@ interface QuickActionProps {
   onClick?: () => void;
 }
 
-const QuickAction = ({ icon, label, onClick }: QuickActionProps) => {
-  return (
-    <button 
-      onClick={onClick} 
-      className="flex items-center gap-2 bg-defi-card hover:bg-white/5 border border-white/10 rounded-xl p-3 transition-colors flex-1"
-    >
-      <div className="rounded-lg bg-white/5 p-2">
-        {icon}
-      </div>
-      <span className="text-sm">{label}</span>
-    </button>
-  );
-};
+const QuickAction = ({ icon, label, onClick }: QuickActionProps) => (
+  <button
+    onClick={onClick}
+    className="w-full max-w-xs min-w-[170px] flex items-center gap-2 px-0 py-4 md:px-8 justify-center bg-[#151926] rounded-xl border border-[#232946] hover:border-defi-accent transition shadow-sm font-semibold text-white/80 hover:text-white group"
+    style={{ minHeight: 48 }}
+  >
+    <span className="rounded-lg bg-[#222843] p-2 mr-2 group-hover:bg-defi-accent/20 transition">{icon}</span>
+    <span>{label}</span>
+  </button>
+);
 
 const QuickActions = () => {
+  // Scroll to forecast
   const scrollToForecast = () => {
-    const forecastElement = document.getElementById('yield-forecast');
-    if (forecastElement) {
-      forecastElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    const el = document.getElementById('yield-forecast');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
-
   return (
-    <div className="flex gap-4 mb-10">
-      <QuickAction 
-        icon={<TrendingUp className="h-5 w-5 text-defi-accent" />} 
-        label="Best yield strategy" 
+    <div className="flex flex-row gap-4 w-full mb-8">
+      <QuickAction
+        icon={<TrendingUp className="w-5 h-5 text-defi-accent" />}
+        label="Best yield strategy"
+        onClick={() => alert("Best yield strategy clicked")}
       />
-      <QuickAction 
-        icon={<ArrowUpRight className="h-5 w-5 text-defi-success" />} 
-        label="Rebalance yields" 
+      <QuickAction
+        icon={<ArrowUpRight className="w-5 h-5 text-defi-success" />}
+        label="Rebalance yields"
+        onClick={() => alert("Rebalance yields clicked")}
       />
-      <QuickAction 
-        icon={<LineChart className="h-5 w-5 text-defi-accent" />} 
-        label="View forecast" 
+      <QuickAction
+        icon={<BarChart2 className="w-5 h-5 text-white" />}
+        label="View forecast"
         onClick={scrollToForecast}
       />
     </div>
   );
 };
-
 export default QuickActions;
