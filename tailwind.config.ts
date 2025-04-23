@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,10 +62,13 @@ export default {
 					card: '#13151D',
 					accent: '#4361EE',
 					text: {
-						primary: 'rgba(255, 255, 255, 0.9)',
-						secondary: 'rgba(255, 255, 255, 0.7)',
-						muted: 'rgba(255, 255, 255, 0.6)'
-					}
+						primary: 'rgba(255, 255, 255, 0.95)',
+						secondary: 'rgba(255, 255, 255, 0.8)',
+						muted: 'rgba(255, 255, 255, 0.7)'
+					},
+					success: '#22c55e',
+					warning: '#f59e0b',
+					error: '#ef4444'
 				}
 			},
 			borderRadius: {
@@ -104,13 +108,69 @@ export default {
 					'100%': {
 						opacity: '1'
 					}
+				},
+				'slide-in-right': {
+					'0%': {
+						transform: 'translateX(100%)'
+					},
+					'100%': {
+						transform: 'translateX(0)'
+					}
+				},
+				'slide-out-right': {
+					'0%': {
+						transform: 'translateX(0)'
+					},
+					'100%': {
+						transform: 'translateX(100%)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-light': 'pulse-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				'fade-in': 'fade-in 0.3s ease-in-out'
+				'fade-in': 'fade-in 0.3s ease-in-out',
+				'slide-in-right': 'slide-in-right 0.3s ease-out',
+				'slide-out-right': 'slide-out-right 0.3s ease-out'
+			},
+			typography: {
+				DEFAULT: {
+					css: {
+						maxWidth: '65ch',
+						color: 'rgba(255, 255, 255, 0.9)',
+						a: {
+							color: 'hsl(var(--defi-accent))',
+							'&:hover': {
+								color: 'hsl(var(--defi-accent), 0.8)',
+							},
+						},
+						strong: {
+							color: 'rgba(255, 255, 255, 0.95)',
+						},
+						code: {
+							color: 'rgba(255, 255, 255, 0.95)',
+							backgroundColor: 'rgba(0, 0, 0, 0.3)',
+							paddingLeft: '4px',
+							paddingRight: '4px',
+							paddingTop: '2px',
+							paddingBottom: '2px',
+							borderRadius: '0.25rem',
+						},
+						h1: {
+							color: 'rgba(255, 255, 255, 0.95)',
+						},
+						h2: {
+							color: 'rgba(255, 255, 255, 0.95)',
+						},
+						h3: {
+							color: 'rgba(255, 255, 255, 0.95)',
+						},
+						h4: {
+							color: 'rgba(255, 255, 255, 0.95)',
+						},
+					}
+				}
 			}
 		}
 	},

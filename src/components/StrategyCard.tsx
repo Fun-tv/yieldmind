@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const Badge = ({ children, variant = 'blue' }: { children: React.ReactNode, variant?: 'blue' | 'green' | 'yellow' | 'gray' }) => {
   const variantClass = {
@@ -16,11 +17,32 @@ const Badge = ({ children, variant = 'blue' }: { children: React.ReactNode, vari
 const StrategyCard = () => {
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [switchStrategyOpen, setSwitchStrategyOpen] = useState(false);
+  const [selectedStrategy, setSelectedStrategy] = useState<number | null>(null);
+  
+  const handleWithdrawConfirm = () => {
+    toast.success("Withdrawal initiated", {
+      description: "Your funds will be available in your wallet shortly"
+    });
+    setWithdrawOpen(false);
+  };
+  
+  const handleStrategySwitch = () => {
+    if (selectedStrategy !== null) {
+      const strategyNames = ["USDC-ETH Pool", "USDC Lending", "APT Staking", "USDC-SOL Pool"];
+      toast.success("Strategy switched successfully", {
+        description: `Now using ${strategyNames[selectedStrategy]} strategy`
+      });
+      setSwitchStrategyOpen(false);
+      setSelectedStrategy(null);
+    } else {
+      toast.error("Please select a strategy first");
+    }
+  };
 
   return (
     <div className="bg-[#151926] rounded-xl px-7 py-6 shadow-lg border border-[#232946]">
       <h2 className="text-lg font-semibold text-white mb-1">Liquidity Mining</h2>
-      <p className="text-defi-muted mb-3 text-white/40">Deposit in the USDC–APT pool on Liquidswap</p>
+      <p className="text-white/40 mb-3">Deposit in the USDC–APT pool on Liquidswap</p>
       <div className="flex justify-between items-center mb-5">
         <div className="flex items-center gap-2">
           <span className="text-sm text-white/40">Yield</span>
@@ -59,34 +81,34 @@ const StrategyCard = () => {
       <Dialog open={withdrawOpen} onOpenChange={setWithdrawOpen}>
         <DialogContent className="bg-defi-card border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle>Withdraw Funds</DialogTitle>
-            <DialogDescription className="text-defi-muted">
+            <DialogTitle className="text-white">Withdraw Funds</DialogTitle>
+            <DialogDescription className="text-white/70">
               Withdraw your funds from USDC–APT Liquidity Pool
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm text-defi-muted">Amount to withdraw</label>
+              <label className="text-sm text-white/80">Amount to withdraw</label>
               <div className="relative">
                 <input
                   type="text"
                   placeholder="0"
-                  className="w-full bg-defi-dark border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-defi-accent/50"
+                  className="w-full bg-defi-dark border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-defi-accent/50 text-white"
                 />
                 <button className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-defi-accent">
                   MAX
                 </button>
               </div>
-              <div className="text-sm text-right text-defi-muted">
+              <div className="text-sm text-right text-white/60">
                 Available: 120 USDC-APT LP
               </div>
             </div>
           </div>
           <div className="flex justify-end gap-3">
-            <Button variant="ghost" onClick={() => setWithdrawOpen(false)}>
+            <Button variant="ghost" onClick={() => setWithdrawOpen(false)} className="text-white hover:bg-white/10">
               Cancel
             </Button>
-            <Button className="bg-defi-accent hover:bg-defi-accent/90">
+            <Button onClick={handleWithdrawConfirm} className="bg-defi-accent hover:bg-defi-accent/90">
               Confirm Withdrawal
             </Button>
           </div>
@@ -97,8 +119,8 @@ const StrategyCard = () => {
       <Dialog open={switchStrategyOpen} onOpenChange={setSwitchStrategyOpen}>
         <DialogContent className="bg-defi-card border-white/10 text-white max-w-xl">
           <DialogHeader>
-            <DialogTitle>Switch Strategy</DialogTitle>
-            <DialogDescription className="text-defi-muted">
+            <DialogTitle className="text-white">Switch Strategy</DialogTitle>
+            <DialogDescription className="text-white/70">
               Choose a new yield strategy for your assets
             </DialogDescription>
           </DialogHeader>
@@ -112,11 +134,12 @@ const StrategyCard = () => {
               ].map((strategy, idx) => (
                 <div
                   key={idx}
-                  className="flex justify-between items-center p-3 border border-white/10 rounded-lg hover:bg-white/5 cursor-pointer"
+                  className={`flex justify-between items-center p-3 border ${selectedStrategy === idx ? 'border-defi-accent' : 'border-white/10'} rounded-lg hover:bg-white/5 cursor-pointer`}
+                  onClick={() => setSelectedStrategy(idx)}
                 >
                   <div className="space-y-1">
-                    <div className="font-medium">{strategy.name}</div>
-                    <div className="text-sm text-defi-muted">{strategy.platform}</div>
+                    <div className="font-medium text-white">{strategy.name}</div>
+                    <div className="text-sm text-white/60">{strategy.platform}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant={strategy.risk === "Low" ? "green" : strategy.risk === "Medium" ? "yellow" : "blue"}>
@@ -129,10 +152,10 @@ const StrategyCard = () => {
             </div>
           </div>
           <div className="flex justify-end gap-3">
-            <Button variant="ghost" onClick={() => setSwitchStrategyOpen(false)}>
+            <Button variant="ghost" onClick={() => setSwitchStrategyOpen(false)} className="text-white hover:bg-white/10">
               Cancel
             </Button>
-            <Button className="bg-defi-accent hover:bg-defi-accent/90">
+            <Button onClick={handleStrategySwitch} className="bg-defi-accent hover:bg-defi-accent/90">
               Select Strategy
             </Button>
           </div>
