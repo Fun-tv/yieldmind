@@ -18,16 +18,16 @@ import Resources from "./pages/Resources";
 import Tutorials from "./pages/Tutorials";
 import Documentation from "./pages/Documentation";
 
-// New pages for the landing site navigation
-const Product = () => <div>Product Page Coming Soon</div>;
-const About = () => <div>About Page Coming Soon</div>;
-const Blog = () => <div>Blog Page Coming Soon</div>;
-const Features = () => <div>Features Page Coming Soon</div>;
-const Pricing = () => <div>Pricing Page Coming Soon</div>;
-const Updates = () => <div>Updates Page Coming Soon</div>;
-const Careers = () => <div>Careers Page Coming Soon</div>;
-const Help = () => <div>Help Page Coming Soon</div>;
-const Status = () => <div>Status Page Coming Soon</div>;
+// Landing site pages
+import Product from "./pages/Product";
+import Features from "./pages/Features";
+import Pricing from "./pages/Pricing";
+import About from "./pages/About";
+import Blog from "./pages/Blog";
+import Updates from "./pages/Updates";
+import Careers from "./pages/Careers";
+import Help from "./pages/Help";
+import Status from "./pages/Status";
 
 const queryClient = new QueryClient();
 
@@ -51,12 +51,12 @@ const App = () => (
           <Route path="/tutorials" element={<Tutorials />} />
           <Route path="/documentation" element={<Documentation />} />
           
-          {/* New landing site routes */}
+          {/* Landing site routes */}
           <Route path="/product" element={<Product />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/blog" element={<Blog />} />
           <Route path="/features" element={<Features />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/updates" element={<Updates />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/help" element={<Help />} />
