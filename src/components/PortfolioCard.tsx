@@ -14,8 +14,11 @@ const PortfolioCard = () => {
   const [balances, setBalances] = useState(initialBalances);
   const [portfolioValue, setPortfolioValue] = useState("$12,340");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState('Just now');
   
   const handleRefresh = () => {
+    if (isRefreshing) return;
+    
     setIsRefreshing(true);
     
     // Simulate updating portfolio data
@@ -23,20 +26,26 @@ const PortfolioCard = () => {
       const newValue = "$" + (12340 + Math.floor(Math.random() * 500) - 250).toLocaleString();
       setPortfolioValue(newValue);
       
-      const updatedBalances = [...balances];
-      // Slightly update one random balance for effect
-      const randomIndex = Math.floor(Math.random() * updatedBalances.length);
-      const currentAmount = parseFloat(updatedBalances[randomIndex].amount.replace(/\s/g, ''));
-      const newAmount = (currentAmount + (Math.random() * 2 - 1)).toFixed(1);
-      updatedBalances[randomIndex].amount = newAmount;
+      const updatedBalances = balances.map(balance => {
+        const currentAmount = parseFloat(balance.amount.replace(/\s/g, ''));
+        const newAmount = (currentAmount + (Math.random() * 2 - 1)).toFixed(1);
+        return { ...balance, amount: newAmount };
+      });
       
       setBalances(updatedBalances);
       setIsRefreshing(false);
+      setLastUpdated('Just now');
       
       toast.success("Portfolio data refreshed", {
         description: "Latest market prices and balances updated"
       });
     }, 1200);
+  };
+
+  const handleAssetClick = (asset: string) => {
+    toast.info(`${asset} details`, {
+      description: `Click for more details about your ${asset} holdings`
+    });
   };
 
   return (
@@ -62,10 +71,17 @@ const PortfolioCard = () => {
         </button>
       </div>
       <div className="text-[2.25rem] font-bold text-white mb-4 leading-tight">{portfolioValue}</div>
-      <div className="text-sm text-white/60 mb-1">Balances</div>
+      <div className="flex justify-between items-center mb-1">
+        <span className="text-sm text-white/70">Balances</span>
+        <span className="text-xs text-white/50">Updated: {lastUpdated}</span>
+      </div>
       <CardContent className="space-y-1 p-0">
         {balances.map((balance, index) => (
-          <div key={index} className="flex justify-between text-sm text-white/80 hover:bg-white/5 p-1 rounded transition cursor-pointer">
+          <div 
+            key={index} 
+            className="flex justify-between text-sm text-white/90 hover:bg-white/5 p-1 rounded transition cursor-pointer"
+            onClick={() => handleAssetClick(balance.asset)}
+          >
             <span>{balance.amount}</span>
             <span>{balance.asset}</span>
           </div>

@@ -13,6 +13,7 @@ import {
   DialogClose 
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 // Available strategies data
 const availableStrategies = [
@@ -53,6 +54,25 @@ const Strategies = () => {
   const handleStrategyClick = (strategy: typeof availableStrategies[0]) => {
     setSelectedStrategy(strategy);
     setShowModal(true);
+  };
+  
+  const handleDeployFunds = () => {
+    if (selectedStrategy) {
+      toast.success("Strategy deployed successfully", {
+        description: `You are now using ${selectedStrategy.title} strategy`
+      });
+      
+      // Update the active strategy in state
+      const updatedStrategies = availableStrategies.map(strat => ({
+        ...strat,
+        status: strat.title === selectedStrategy.title ? 'active' : 
+                strat.status === 'active' ? 'available' : strat.status
+      }));
+      
+      // In a real app, we would update the availableStrategies state here
+      
+      setShowModal(false);
+    }
   };
 
   return (
@@ -114,8 +134,8 @@ const Strategies = () => {
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent className="bg-[#151926] border-[#232946] text-white">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">{selectedStrategy?.title}</DialogTitle>
-            <DialogDescription className="text-white/70">
+            <DialogTitle className="text-xl font-bold text-white">{selectedStrategy?.title}</DialogTitle>
+            <DialogDescription className="text-white/90">
               {selectedStrategy?.description}
             </DialogDescription>
           </DialogHeader>
@@ -123,18 +143,18 @@ const Strategies = () => {
           <div className="space-y-4 py-3">
             <div className="flex gap-4">
               <div className="flex-1 p-4 bg-[#1a1e2e] rounded-lg">
-                <div className="text-sm text-white/60 mb-1">Expected APR</div>
+                <div className="text-sm text-white/80 mb-1">Expected APR</div>
                 <div className="text-xl font-bold text-white">{selectedStrategy?.apr}</div>
               </div>
               <div className="flex-1 p-4 bg-[#1a1e2e] rounded-lg">
-                <div className="text-sm text-white/60 mb-1">Risk Level</div>
+                <div className="text-sm text-white/80 mb-1">Risk Level</div>
                 <div className="text-xl font-bold text-white">{selectedStrategy?.risk}</div>
               </div>
             </div>
             
             <div className="p-4 bg-[#1a1e2e] rounded-lg">
-              <div className="text-sm text-white/60 mb-2">Strategy Details</div>
-              <ul className="text-sm text-white/80 list-disc pl-5 space-y-1">
+              <div className="text-sm text-white/80 mb-2">Strategy Details</div>
+              <ul className="text-sm text-white/90 list-disc pl-5 space-y-1">
                 <li>Provides liquidity to facilitate token swaps</li>
                 <li>Earns fees from trades in the pool</li>
                 <li>Potential for additional token rewards</li>
@@ -149,7 +169,10 @@ const Strategies = () => {
                 Cancel
               </Button>
             </DialogClose>
-            <Button className="bg-defi-accent hover:bg-defi-accent/90 text-white">
+            <Button 
+              className="bg-defi-accent hover:bg-defi-accent/90 text-white"
+              onClick={handleDeployFunds}
+            >
               {selectedStrategy?.status === 'active' ? 'Switch Strategy' : 'Deploy Funds'}
             </Button>
           </div>

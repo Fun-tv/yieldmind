@@ -6,6 +6,7 @@ import { Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const mockAssets = [
@@ -35,6 +36,8 @@ const mockAssets = [
 const Portfolio = () => {
   const navigate = useNavigate();
   const [withdrawOpen, setWithdrawOpen] = useState(false);
+  const [withdrawAmount, setWithdrawAmount] = useState("1,000");
+  const [selectedAsset, setSelectedAsset] = useState("all");
   
   const handleRebalance = () => {
     navigate("/rebalance");
@@ -43,10 +46,21 @@ const Portfolio = () => {
     });
   };
   
-  const handleWithdraw = (amount: string) => {
+  const handleWithdraw = () => {
+    if (!withdrawAmount.trim()) {
+      toast.error("Please enter a withdrawal amount");
+      return;
+    }
+    
+    let selectedAssetName = "All Assets (proportional)";
+    if (selectedAsset === "usdc-apt") selectedAssetName = "USDC-APT LP";
+    if (selectedAsset === "apt") selectedAssetName = "APT Staking";
+    if (selectedAsset === "cake-bnb") selectedAssetName = "CAKE-BNB LP";
+    
     toast.success(`Withdrawal Successful!`, {
-      description: `${amount} has been withdrawn from your portfolio`
+      description: `$${withdrawAmount} has been withdrawn from ${selectedAssetName}`
     });
+    
     setWithdrawOpen(false);
   };
 
@@ -93,7 +107,7 @@ const Portfolio = () => {
             Withdraw
           </Button>
         </div>
-        <div className="mt-6 text-sm text-white/60">
+        <div className="mt-6 text-sm text-white/70">
           Portfolio is automatically optimized every 4 hours based on market signals.
         </div>
       </Card>
@@ -103,31 +117,39 @@ const Portfolio = () => {
         <DialogContent className="bg-defi-card border-white/10 text-white">
           <DialogHeader>
             <DialogTitle className="text-white">Withdraw Funds</DialogTitle>
-            <DialogDescription className="text-white/70">
+            <DialogDescription className="text-white/90">
               Withdraw your funds from your portfolio
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm text-white/80">Amount to withdraw</label>
+              <label className="text-sm text-white/90">Amount to withdraw</label>
               <div className="relative">
-                <input
+                <Input
                   type="text"
                   placeholder="0"
-                  defaultValue="1,000"
+                  value={withdrawAmount}
+                  onChange={(e) => setWithdrawAmount(e.target.value)}
                   className="w-full bg-defi-dark border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-defi-accent/50 text-white"
                 />
-                <button className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-defi-accent">
+                <button 
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-defi-accent"
+                  onClick={() => setWithdrawAmount("11,000")}
+                >
                   MAX
                 </button>
               </div>
-              <div className="text-sm text-right text-white/60">
+              <div className="text-sm text-right text-white/80">
                 Available: $11,000 across all assets
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm text-white/80">Select asset</label>
-              <select className="w-full bg-defi-dark border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-defi-accent/50 text-white">
+              <label className="text-sm text-white/90">Select asset</label>
+              <select 
+                className="w-full bg-defi-dark border border-white/10 rounded-lg p-3 focus:outline-none focus:ring-1 focus:ring-defi-accent/50 text-white"
+                value={selectedAsset}
+                onChange={(e) => setSelectedAsset(e.target.value)}
+              >
                 <option value="all">All Assets (proportional)</option>
                 <option value="usdc-apt">USDC-APT LP</option>
                 <option value="apt">APT Staking</option>
@@ -139,7 +161,7 @@ const Portfolio = () => {
             <Button variant="ghost" onClick={() => setWithdrawOpen(false)} className="text-white hover:bg-white/10">
               Cancel
             </Button>
-            <Button onClick={() => handleWithdraw("$1,000")} className="bg-defi-accent hover:bg-defi-accent/90">
+            <Button onClick={handleWithdraw} className="bg-defi-accent hover:bg-defi-accent/90">
               Confirm Withdrawal
             </Button>
           </div>
