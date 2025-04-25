@@ -18,6 +18,17 @@ import Resources from "./pages/Resources";
 import Tutorials from "./pages/Tutorials";
 import Documentation from "./pages/Documentation";
 
+// New pages for the landing site navigation
+const Product = () => <div>Product Page Coming Soon</div>;
+const About = () => <div>About Page Coming Soon</div>;
+const Blog = () => <div>Blog Page Coming Soon</div>;
+const Features = () => <div>Features Page Coming Soon</div>;
+const Pricing = () => <div>Pricing Page Coming Soon</div>;
+const Updates = () => <div>Updates Page Coming Soon</div>;
+const Careers = () => <div>Careers Page Coming Soon</div>;
+const Help = () => <div>Help Page Coming Soon</div>;
+const Status = () => <div>Status Page Coming Soon</div>;
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -39,7 +50,18 @@ const App = () => (
           <Route path="/resources" element={<Resources />} />
           <Route path="/tutorials" element={<Tutorials />} />
           <Route path="/documentation" element={<Documentation />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          
+          {/* New landing site routes */}
+          <Route path="/product" element={<Product />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/updates" element={<Updates />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/status" element={<Status />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
