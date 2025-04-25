@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Info, BookOpen, ArrowRight } from 'lucide-react';
+import { Package, Info, BookOpen, ArrowRight, Star, StarHalf, ThumbsUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
 
@@ -18,12 +17,35 @@ const Landing = () => {
     });
   };
 
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "DeFi Investor",
+      comment: "YieldMind has transformed how I manage my DeFi investments. The AI recommendations are spot-on!",
+      rating: 5,
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
+    },
+    {
+      name: "Michael Chen",
+      role: "Crypto Trader",
+      comment: "The portfolio optimization features are incredible. I've seen a 25% increase in my yields.",
+      rating: 4.5,
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael"
+    },
+    {
+      name: "Emma Davis",
+      role: "Finance Analyst",
+      comment: "Best DeFi management platform I've used. The interface is intuitive and the AI is powerful.",
+      rating: 5,
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#000B1D] text-white">
-      {/* Navigation */}
       <nav className="w-full px-6 py-4 lg:px-8 border-b border-white/5 backdrop-blur-sm fixed top-0 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold tracking-tight hover:text-defi-accent transition-colors">YIELDMIND</Link>
+          <Link to="/" className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-white/90 bg-clip-text">YIELDMIND</Link>
           <div className="hidden md:flex items-center gap-8">
             <Link 
               to="/product" 
@@ -60,10 +82,8 @@ const Landing = () => {
         </div>
       </nav>
 
-      {/* Hero Section with animation */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-32 mt-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column with animations */}
           <div className="animate-fade-in">
             <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent">
               AI-powered<br />
@@ -85,7 +105,6 @@ const Landing = () => {
             </Button>
           </div>
 
-          {/* Right Column - Preview Image with animation */}
           <div className="relative hidden lg:block animate-fade-in">
             <div className="absolute inset-0 bg-gradient-to-r from-[#000B1D] to-transparent z-10 w-32 left-0" />
             <img 
@@ -97,7 +116,51 @@ const Landing = () => {
         </div>
       </div>
 
-      {/* Footer with hover effects */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24">
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent">
+            What Our Users Say
+          </h2>
+          <p className="text-xl text-white/80">
+            Join thousands of satisfied users optimizing their DeFi investments
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={testimonial.name}
+              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:shadow-xl hover:shadow-white/5"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-12 h-12 rounded-full border border-white/20"
+                />
+                <div>
+                  <h3 className="font-semibold text-white">{testimonial.name}</h3>
+                  <p className="text-white/60 text-sm">{testimonial.role}</p>
+                </div>
+              </div>
+              <div className="flex gap-1 mb-3">
+                {[...Array(Math.floor(testimonial.rating))].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                ))}
+                {testimonial.rating % 1 !== 0 && (
+                  <StarHalf className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                )}
+              </div>
+              <p className="text-white/80 leading-relaxed">{testimonial.comment}</p>
+              <div className="mt-4 flex items-center gap-2 text-white/60">
+                <ThumbsUp className="w-4 h-4" />
+                <span>Verified User</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <footer className="border-t border-white/5 bg-[#000B1D]/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
