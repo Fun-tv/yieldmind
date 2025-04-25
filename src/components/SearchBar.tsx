@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SearchBar = () => {
@@ -29,7 +29,9 @@ const SearchBar = () => {
     // Simulate processing time
     setTimeout(() => {
       setIsProcessing(false);
-      // In a real app, this would trigger a search or AI processing
+      toast.info('Results ready', {
+        description: 'Check the strategies section for personalized recommendations',
+      });
     }, 1500);
   };
   
@@ -40,7 +42,7 @@ const SearchBar = () => {
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="w-full bg-[#151926] rounded-xl px-6 py-2 flex items-center gap-4 mb-1 border border-white/6">
-        <span className="mr-2 text-white/50 text-lg font-semibold select-none">?</span>
+        <Search className="text-white/50 w-5 h-5" />
         <input
           type="text"
           className="bg-transparent border-none outline-none flex-1 text-white text-lg font-medium placeholder:text-white/50"
@@ -56,7 +58,7 @@ const SearchBar = () => {
         <button 
           onClick={handleSearch}
           disabled={isProcessing}
-          className="bg-[#232946] hover:bg-[#242e6d]/90 transition p-2 rounded-lg flex items-center disabled:opacity-50">
+          className="bg-[#232946] hover:bg-[#242e6d]/90 transition p-2 rounded-lg flex items-center disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-defi-accent/50">
           {isProcessing ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
           ) : (

@@ -5,14 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
-const Badge = ({ children, variant = 'blue' }: { children: React.ReactNode, variant?: 'blue' | 'green' | 'yellow' | 'gray' }) => {
+const Badge = ({ children, variant = 'blue' }: { children: React.ReactNode, variant?: 'blue' | 'green' | 'yellow' | 'gray' | 'red' }) => {
   const variantClass = {
-    blue: 'badge-blue',
-    green: 'badge-green',
-    yellow: 'badge-yellow',
-    gray: 'badge-gray',
+    blue: 'bg-blue-900/30 text-blue-400',
+    green: 'bg-green-900/30 text-green-400',
+    yellow: 'bg-yellow-900/30 text-yellow-400',
+    red: 'bg-red-900/30 text-red-400',
+    gray: 'bg-gray-900/30 text-gray-400',
   };
-  return <span className={`badge ${variantClass[variant]} px-2 py-0.5`}>{children}</span>;
+  return <span className={`${variantClass[variant]} text-xs px-2 py-0.5 rounded-md font-medium`}>{children}</span>;
 };
 
 const StrategyCard = () => {
@@ -21,6 +22,15 @@ const StrategyCard = () => {
   const [selectedStrategy, setSelectedStrategy] = useState<number | null>(null);
   const [withdrawAmount, setWithdrawAmount] = useState('50');
   const [maxLP, setMaxLP] = useState(120);
+  const [currentStrategy, setCurrentStrategy] = useState({
+    name: "Liquidity Mining",
+    description: "Deposit in the USDC–APT pool on Liquidswap",
+    yield: "7.3% APR",
+    risk: "Low risk",
+    farming: "Farming USDC–APT LP",
+    tokens: "120 tokens",
+    apr: "72% APR"
+  });
   
   const handleWithdrawConfirm = () => {
     const amount = parseFloat(withdrawAmount);
@@ -47,9 +57,53 @@ const StrategyCard = () => {
   
   const handleStrategySwitch = () => {
     if (selectedStrategy !== null) {
-      const strategyNames = ["USDC-ETH Pool", "USDC Lending", "APT Staking", "USDC-SOL Pool"];
+      const strategies = [
+        {
+          name: "USDC-ETH Pool",
+          description: "Deposit in the USDC-ETH pool on Liquidswap",
+          platform: "Liquidswap",
+          yield: "8.2% APR",
+          risk: "Medium risk",
+          farming: "Farming USDC-ETH LP",
+          tokens: `${maxLP} tokens`,
+          apr: "82% APR"
+        },
+        {
+          name: "USDC Lending",
+          description: "Supply USDC to the Compound protocol",
+          platform: "Compound",
+          yield: "5.1% APR",
+          risk: "Low risk",
+          farming: "Lending USDC",
+          tokens: `${maxLP} tokens`,
+          apr: "51% APR"
+        },
+        {
+          name: "APT Staking",
+          description: "Stake APT tokens on Aptos Network",
+          platform: "Aptos Network",
+          yield: "6.5% APR",
+          risk: "Low risk",
+          farming: "Staking APT",
+          tokens: `${maxLP} tokens`,
+          apr: "65% APR"
+        },
+        {
+          name: "USDC-SOL Pool",
+          description: "Deposit in the USDC-SOL pool on Raydium",
+          platform: "Raydium",
+          yield: "10.3% APR",
+          risk: "High risk",
+          farming: "Farming USDC-SOL LP",
+          tokens: `${maxLP} tokens`,
+          apr: "103% APR"
+        }
+      ];
+      
+      setCurrentStrategy(strategies[selectedStrategy]);
+      
       toast.success("Strategy switched successfully", {
-        description: `Now using ${strategyNames[selectedStrategy]} strategy`
+        description: `Now using ${strategies[selectedStrategy].name} strategy`
       });
       setSwitchStrategyOpen(false);
       setSelectedStrategy(null);
@@ -62,24 +116,31 @@ const StrategyCard = () => {
     setWithdrawAmount(maxLP.toString());
   };
 
+  const getRiskBadgeVariant = (risk: string) => {
+    if (risk.includes("Low")) return "green";
+    if (risk.includes("Medium")) return "yellow";
+    if (risk.includes("High")) return "red";
+    return "blue";
+  };
+
   return (
     <div className="bg-[#151926] rounded-xl px-7 py-6 shadow-lg border border-[#232946]">
-      <h2 className="text-lg font-semibold text-white mb-1">Liquidity Mining</h2>
-      <p className="text-white/70 mb-3">Deposit in the USDC–APT pool on Liquidswap</p>
+      <h2 className="text-lg font-semibold text-white mb-1">{currentStrategy.name}</h2>
+      <p className="text-white/70 mb-3">{currentStrategy.description}</p>
       <div className="flex justify-between items-center mb-5">
         <div className="flex items-center gap-2">
           <span className="text-sm text-white/70">Yield</span>
-          <Badge variant="blue">7.3% APR</Badge>
+          <Badge variant="blue">{currentStrategy.yield}</Badge>
         </div>
-        <Badge variant="green">Low risk</Badge>
+        <Badge variant={getRiskBadgeVariant(currentStrategy.risk)}>{currentStrategy.risk}</Badge>
       </div>
       <div className="bg-[#222843] rounded-lg px-5 py-3 mb-5">
         <div className="text-xs text-white/70 mb-0.5">Current Strategy</div>
         <div className="flex justify-between items-center">
-          <div className="text-white/90 font-medium">Farming USDC–APT LP</div>
+          <div className="text-white/90 font-medium">{currentStrategy.farming}</div>
           <div className="flex items-center gap-2">
             <span className="text-sm text-white/90">{maxLP} tokens</span>
-            <Badge variant="blue">72% APR</Badge>
+            <Badge variant="blue">{currentStrategy.apr}</Badge>
           </div>
         </div>
       </div>
@@ -106,7 +167,7 @@ const StrategyCard = () => {
           <DialogHeader>
             <DialogTitle className="text-white">Withdraw Funds</DialogTitle>
             <DialogDescription className="text-white/90">
-              Withdraw your funds from USDC–APT Liquidity Pool
+              Withdraw your funds from {currentStrategy.name}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -128,7 +189,7 @@ const StrategyCard = () => {
                 </button>
               </div>
               <div className="text-sm text-right text-white/80">
-                Available: {maxLP} USDC-APT LP
+                Available: {maxLP} tokens
               </div>
             </div>
           </div>
@@ -162,7 +223,7 @@ const StrategyCard = () => {
               ].map((strategy, idx) => (
                 <div
                   key={idx}
-                  className={`flex justify-between items-center p-3 border ${selectedStrategy === idx ? 'border-defi-accent' : 'border-white/10'} rounded-lg hover:bg-white/5 cursor-pointer`}
+                  className={`flex justify-between items-center p-3 border ${selectedStrategy === idx ? 'border-defi-accent' : 'border-white/10'} rounded-lg hover:bg-white/5 cursor-pointer transition`}
                   onClick={() => setSelectedStrategy(idx)}
                 >
                   <div className="space-y-1">
@@ -170,7 +231,7 @@ const StrategyCard = () => {
                     <div className="text-sm text-white/80">{strategy.platform}</div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant={strategy.risk === "Low" ? "green" : strategy.risk === "Medium" ? "yellow" : "blue"}>
+                    <Badge variant={strategy.risk === "Low" ? "green" : strategy.risk === "Medium" ? "yellow" : "red"}>
                       {strategy.risk} Risk
                     </Badge>
                     <Badge variant="blue">{strategy.apr} APR</Badge>
