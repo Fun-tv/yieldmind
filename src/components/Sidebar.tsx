@@ -18,9 +18,9 @@ import { toast } from 'sonner';
 
 // Sidebar links configuration
 const links = [
-  { icon: Brain, label: 'AI DeFi Agent', key: 'agent', path: '/' },
+  { icon: Brain, label: 'AI DeFi Agent', key: 'agent', path: '/dashboard' },
   { icon: null, label: '' }, // Divider
-  { icon: null, label: 'Dashboard', key: 'dashboard', path: '/' },
+  { icon: null, label: 'Dashboard', key: 'dashboard', path: '/dashboard' },
   { icon: MessageSquare, label: 'Chat', key: 'chat', path: '/chat' },
   { icon: History, label: 'History', key: 'history', path: '/history' },
   { icon: Wallet, label: 'Portfolio', key: 'portfolio', path: '/portfolio' },
@@ -42,7 +42,7 @@ const Sidebar = () => {
   // Determine active key from current path
   const currentPath = location.pathname;
   const activeKey = links.find(link => link.path === currentPath)?.key || 
-                   (currentPath === '/' ? 'dashboard' : '');
+                   (currentPath === '/dashboard' ? 'dashboard' : '');
 
   // Handle sidebar item click
   function handleSidebarClick(path: string | undefined, label: string) {
@@ -60,7 +60,7 @@ const Sidebar = () => {
     <aside className="min-h-screen w-[265px] flex-shrink-0 bg-[#151926] border-r border-white/5 px-0 select-none transition-all shadow-lg">
       <div className="flex flex-col h-full pt-3 pb-8">
         {/* Logo */}
-        <div className="flex gap-3 items-center px-6 py-3 mb-1 cursor-pointer" onClick={() => handleSidebarClick('/', 'Dashboard')}>
+        <div className="flex gap-3 items-center px-6 py-3 mb-1 cursor-pointer" onClick={() => handleSidebarClick('/dashboard', 'Dashboard')}>
           <span className="rounded-full bg-[#222843] p-2">
             <Brain className="w-6 h-6 text-defi-accent" />
           </span>
