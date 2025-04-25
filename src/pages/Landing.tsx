@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Product, Info, BookOpen, ArrowRight } from 'lucide-react';
+import { Package, Info, BookOpen, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Landing = () => {
@@ -13,7 +13,7 @@ const Landing = () => {
           <Link to="/" className="text-2xl font-bold tracking-tight">YIELDMIND</Link>
           <div className="hidden md:flex items-center gap-8">
             <Link to="/product" className="text-white/80 hover:text-white flex items-center gap-2">
-              <Product className="w-4 h-4" />
+              <Package className="w-4 h-4" />
               Product
             </Link>
             <Link to="/about" className="text-white/80 hover:text-white flex items-center gap-2">
