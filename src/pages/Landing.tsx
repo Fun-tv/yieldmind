@@ -3,30 +3,55 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Info, BookOpen, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from "sonner";
 
 const Landing = () => {
+  const handleGetStarted = () => {
+    toast.success("Welcome to YieldMind!", {
+      description: "Let's optimize your DeFi investments together."
+    });
+  };
+
+  const handleNavigation = (path: string, label: string) => {
+    toast.success(`Navigating to ${label}`, {
+      description: "Loading content..."
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#000B1D] text-white">
       {/* Navigation */}
-      <nav className="w-full px-6 py-4 lg:px-8 border-b border-white/5">
+      <nav className="w-full px-6 py-4 lg:px-8 border-b border-white/5 backdrop-blur-sm fixed top-0 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold tracking-tight">YIELDMIND</Link>
+          <Link to="/" className="text-2xl font-bold tracking-tight hover:text-defi-accent transition-colors">YIELDMIND</Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link to="/product" className="text-white/80 hover:text-white flex items-center gap-2">
+            <Link 
+              to="/product" 
+              onClick={() => handleNavigation('/product', 'Product')}
+              className="text-white/80 hover:text-white flex items-center gap-2 transition-colors"
+            >
               <Package className="w-4 h-4" />
               Product
             </Link>
-            <Link to="/about" className="text-white/80 hover:text-white flex items-center gap-2">
+            <Link 
+              to="/about"
+              onClick={() => handleNavigation('/about', 'About')}
+              className="text-white/80 hover:text-white flex items-center gap-2 transition-colors"
+            >
               <Info className="w-4 h-4" />
               About
             </Link>
-            <Link to="/blog" className="text-white/80 hover:text-white flex items-center gap-2">
+            <Link 
+              to="/blog"
+              onClick={() => handleNavigation('/blog', 'Blog')}
+              className="text-white/80 hover:text-white flex items-center gap-2 transition-colors"
+            >
               <BookOpen className="w-4 h-4" />
               Blog
             </Link>
             <Button 
               variant="secondary" 
-              className="bg-[#001538] text-white hover:bg-[#001d4d] border border-white/10"
+              className="bg-[#001538] text-white hover:bg-[#001d4d] border border-white/10 transition-all duration-300 hover:scale-105"
               asChild
             >
               <Link to="/dashboard">Sign in</Link>
@@ -35,72 +60,94 @@ const Landing = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24">
+      {/* Hero Section with animation */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-32 mt-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column */}
-          <div>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          {/* Left Column with animations */}
+          <div className="animate-fade-in">
+            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent">
               AI-powered<br />
               DeFi agent
             </h1>
-            <p className="text-xl text-white/80 mb-8 max-w-xl leading-relaxed">
+            <p className="text-xl text-white/80 mb-8 max-w-xl leading-relaxed hover:text-white transition-colors">
               Optimize your decentralized finance strategies and maximize returns with intelligent investment recommendations.
             </p>
             <Button 
               size="lg" 
-              className="bg-white text-[#000B1D] hover:bg-white/90 text-lg px-8 py-6"
+              onClick={handleGetStarted}
+              className="bg-white text-[#000B1D] hover:bg-white/90 text-lg px-8 py-6 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/10"
               asChild
             >
-              <Link to="/dashboard">Get started</Link>
+              <Link to="/dashboard">
+                Get started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
           </div>
 
-          {/* Right Column - Preview Image */}
-          <div className="relative hidden lg:block">
+          {/* Right Column - Preview Image with animation */}
+          <div className="relative hidden lg:block animate-fade-in">
             <div className="absolute inset-0 bg-gradient-to-r from-[#000B1D] to-transparent z-10 w-32 left-0" />
             <img 
               src="/lovable-uploads/1e6c6aef-56b6-4f72-97a1-db58fd689fd6.png" 
               alt="YieldMind Dashboard Preview" 
-              className="rounded-lg shadow-2xl border border-white/10"
+              className="rounded-lg shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
             />
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 bg-[#000B1D]">
+      {/* Footer with hover effects */}
+      <footer className="border-t border-white/5 bg-[#000B1D]/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-bold mb-4">Product</h3>
+              <h3 className="font-bold mb-4 text-defi-accent">Product</h3>
               <ul className="space-y-2">
-                <li><Link to="/features" className="text-white/60 hover:text-white">Features</Link></li>
-                <li><Link to="/pricing" className="text-white/60 hover:text-white">Pricing</Link></li>
-                <li><Link to="/updates" className="text-white/60 hover:text-white">Updates</Link></li>
+                <li><Link to="/features" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Features</Link></li>
+                <li><Link to="/pricing" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Pricing</Link></li>
+                <li><Link to="/updates" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Updates</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-bold mb-4">Company</h3>
+              <h3 className="font-bold mb-4 text-defi-accent">Company</h3>
               <ul className="space-y-2">
-                <li><Link to="/about" className="text-white/60 hover:text-white">About</Link></li>
-                <li><Link to="/blog" className="text-white/60 hover:text-white">Blog</Link></li>
-                <li><Link to="/careers" className="text-white/60 hover:text-white">Careers</Link></li>
+                <li><Link to="/about" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">About</Link></li>
+                <li><Link to="/blog" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Blog</Link></li>
+                <li><Link to="/careers" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Careers</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-bold mb-4">Support</h3>
+              <h3 className="font-bold mb-4 text-defi-accent">Support</h3>
               <ul className="space-y-2">
-                <li><Link to="/help" className="text-white/60 hover:text-white">Help</Link></li>
-                <li><Link to="/documentation" className="text-white/60 hover:text-white">Documentation</Link></li>
-                <li><Link to="/status" className="text-white/60 hover:text-white">Status</Link></li>
+                <li><Link to="/help" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Help</Link></li>
+                <li><Link to="/documentation" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Documentation</Link></li>
+                <li><Link to="/status" className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200">Status</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-bold mb-4">Follow us</h3>
+              <h3 className="font-bold mb-4 text-defi-accent">Follow us</h3>
               <ul className="space-y-2">
-                <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white">Twitter</a></li>
-                <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white">LinkedIn</a></li>
+                <li>
+                  <a 
+                    href="https://twitter.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200"
+                  >
+                    Twitter
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://linkedin.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-white/60 hover:text-white transition-colors inline-block hover:translate-x-1 transform duration-200"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
