@@ -1,8 +1,17 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Info, BookOpen, ArrowRight, Star, StarHalf, ThumbsUp } from 'lucide-react';
+import { Package, Info, BookOpen, ArrowRight, Star, StarHalf, ThumbsUp, LineChart, BarChart, Users, Gauge } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 
 const Landing = () => {
   const handleGetStarted = () => {
@@ -41,11 +50,52 @@ const Landing = () => {
     }
   ];
 
+  const businessMetrics = [
+    {
+      value: "$1.8B+",
+      label: "Total Volume",
+      icon: <BarChart className="h-6 w-6 text-defi-accent" />
+    },
+    {
+      value: "50,000+",
+      label: "Active Users",
+      icon: <Users className="h-6 w-6 text-defi-accent" />
+    },
+    {
+      value: "18.7%",
+      label: "Avg. Returns",
+      icon: <LineChart className="h-6 w-6 text-defi-accent" />
+    },
+    {
+      value: "24/7",
+      label: "AI Monitoring",
+      icon: <Gauge className="h-6 w-6 text-defi-accent" />
+    }
+  ];
+
+  const dashboardFeatures = [
+    {
+      title: "Portfolio Management",
+      description: "Track and manage all your DeFi investments in one unified dashboard with real-time data.",
+      image: "/lovable-uploads/1e6c6aef-56b6-4f72-97a1-db58fd689fd6.png"
+    },
+    {
+      title: "Yield Optimization",
+      description: "Our AI analyzes market conditions to recommend the highest-yielding strategies for your assets.",
+      image: "/lovable-uploads/1e6c6aef-56b6-4f72-97a1-db58fd689fd6.png"
+    },
+    {
+      title: "Risk Assessment",
+      description: "Advanced analytics that help you understand exposure and mitigate potential risks.",
+      image: "/lovable-uploads/1e6c6aef-56b6-4f72-97a1-db58fd689fd6.png"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#000B1D] text-white">
       <nav className="w-full px-6 py-4 lg:px-8 border-b border-white/5 backdrop-blur-sm fixed top-0 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-white/90 bg-clip-text">YIELDMIND</Link>
+          <Link to="/" className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent">YIELDMIND</Link>
           <div className="hidden md:flex items-center gap-8">
             <Link 
               to="/product" 
@@ -113,6 +163,69 @@ const Landing = () => {
               className="rounded-lg shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
             />
           </div>
+        </div>
+      </div>
+
+      {/* Business Metrics Section */}
+      <div className="relative py-16 bg-gradient-to-b from-[#000B1D] to-[#00142e]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 px-6 lg:px-8">
+            {businessMetrics.map((metric, index) => (
+              <div 
+                key={metric.label} 
+                className="text-center p-6 backdrop-blur-sm bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <div className="flex justify-center mb-3">
+                  {metric.icon}
+                </div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">{metric.value}</div>
+                <div className="text-white/70">{metric.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Dashboard Features Section */}
+      <div className="py-24 bg-[#00142e]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent">
+              Powerful Dashboard Features
+            </h2>
+            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+              Experience the full potential of our AI-driven platform with these powerful tools
+            </p>
+          </div>
+
+          <Carousel 
+            opts={{ loop: true }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {dashboardFeatures.map((feature, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <Card className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.03]">
+                    <CardContent className="p-0">
+                      <div className="overflow-hidden rounded-t-lg">
+                        <img 
+                          src={feature.image} 
+                          alt={feature.title} 
+                          className="w-full h-48 object-cover object-top transition-transform duration-500 hover:scale-110"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-semibold mb-2 text-white">{feature.title}</h3>
+                        <p className="text-white/70">{feature.description}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2 bg-white/10 hover:bg-white/20 border-0" />
+            <CarouselNext className="right-2 bg-white/10 hover:bg-white/20 border-0" />
+          </Carousel>
         </div>
       </div>
 
