@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -169,6 +170,55 @@
   .dialog-content-defi {
     @apply bg-[#151926] border border-[#232946] text-white;
   }
+  
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float 10s ease-in-out infinite;
+  }
+  
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+  
+  /* Glassmorphism utilities */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/5 border border-white/10;
+  }
+  
+  .glass-card-hover {
+    @apply hover:bg-white/10 hover:border-white/20 transition-all duration-300;
+  }
+  
+  /* Glow effects */
+  .glow-text {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .glow-border {
+    box-shadow: 0 0 10px currentColor;
+  }
+  
+  /* 3D hover effects */
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Mesh gradient background */
+  .mesh-gradient {
+    background-color: #000B1D;
+    background-image: 
+      radial-gradient(at 47% 33%, hsl(229, 45%, 30%, 0.2) 0, transparent 59%), 
+      radial-gradient(at 82% 65%, hsl(240, 38%, 20%, 0.15) 0, transparent 55%);
+  }
 }
 
 /* Add custom scrollbar for better readability */
@@ -200,6 +250,78 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out forwards;
 }
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-light {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Advanced hover effects */
+.hover-underline-animation {
+  position: relative;
+}
+
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* 3D card effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+}
+
