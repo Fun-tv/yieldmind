@@ -17,6 +17,8 @@ import TestStrategy from "./pages/TestStrategy";
 import Resources from "./pages/Resources";
 import Tutorials from "./pages/Tutorials";
 import Documentation from "./pages/Documentation";
+import DashboardWrapper from "./components/DashboardWrapper";
+import { AuthProvider } from "./contexts/AuthContext";
 
 // Landing site pages
 import Product from "./pages/Product";
@@ -31,40 +33,49 @@ import Status from "./pages/Status";
 
 const queryClient = new QueryClient();
 
+// Wrap dashboard routes with DashboardWrapper for authentication handling
+const DashboardRoute = ({ element }: { element: React.ReactNode }) => (
+  <DashboardWrapper>
+    {element}
+  </DashboardWrapper>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/dashboard" element={<Index />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/strategies" element={<Strategies />} />
-          <Route path="/best-yield" element={<BestYield />} />
-          <Route path="/rebalance" element={<Rebalance />} />
-          <Route path="/test-strategy" element={<TestStrategy />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/tutorials" element={<Tutorials />} />
-          <Route path="/documentation" element={<Documentation />} />
-          
-          {/* Landing site routes */}
-          <Route path="/product" element={<Product />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/updates" element={<Updates />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="/status" element={<Status />} />
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/dashboard" element={<DashboardRoute element={<Index />} />} />
+            <Route path="/chat" element={<DashboardRoute element={<Chat />} />} />
+            <Route path="/history" element={<DashboardRoute element={<History />} />} />
+            <Route path="/portfolio" element={<DashboardRoute element={<Portfolio />} />} />
+            <Route path="/strategies" element={<DashboardRoute element={<Strategies />} />} />
+            <Route path="/best-yield" element={<DashboardRoute element={<BestYield />} />} />
+            <Route path="/rebalance" element={<DashboardRoute element={<Rebalance />} />} />
+            <Route path="/test-strategy" element={<DashboardRoute element={<TestStrategy />} />} />
+            <Route path="/resources" element={<DashboardRoute element={<Resources />} />} />
+            <Route path="/tutorials" element={<DashboardRoute element={<Tutorials />} />} />
+            <Route path="/documentation" element={<DashboardRoute element={<Documentation />} />} />
+            
+            {/* Landing site routes */}
+            <Route path="/product" element={<Product />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/updates" element={<Updates />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/status" element={<Status />} />
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
