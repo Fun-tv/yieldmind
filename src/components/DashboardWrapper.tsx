@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import WelcomeModal from './WelcomeModal';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface DashboardWrapperProps {
   children: React.ReactNode;
@@ -11,16 +12,30 @@ interface DashboardWrapperProps {
 const DashboardWrapper: React.FC<DashboardWrapperProps> = ({ children }) => {
   const { user, isLoading, connectWallet } = useAuth();
   const [showWelcome, setShowWelcome] = useState(false);
+  const [checkingMetaMask, setCheckingMetaMask] = useState(true);
+  
+  // Check for MetaMask on load
+  useEffect(() => {
+    const checkMetaMask = async () => {
+      if (!window.ethereum) {
+        console.warn("MetaMask not detected");
+        // Only log to console, don't show toast yet as this is just a check
+      }
+      setCheckingMetaMask(false);
+    };
+    
+    checkMetaMask();
+  }, []);
   
   // Check if it's the user's first visit
   useEffect(() => {
     const hasVisited = localStorage.getItem('hasVisitedBefore');
-    if (!hasVisited && !isLoading && !user) {
+    if (!hasVisited && !isLoading && !user && !checkingMetaMask) {
       // Only show welcome modal after we've confirmed there's no active session
       setShowWelcome(true);
       localStorage.setItem('hasVisitedBefore', 'true');
     }
-  }, [isLoading, user]);
+  }, [isLoading, user, checkingMetaMask]);
 
   if (isLoading) {
     return (

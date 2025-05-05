@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Wallet, Shield, Brain } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface WelcomeModalProps {
   open: boolean;
@@ -22,9 +22,25 @@ const WelcomeModal: React.FC<WelcomeModalProps> = ({
   onOpenChange,
   onConnectWallet
 }) => {
-  const handleConnect = () => {
-    onConnectWallet();
-    onOpenChange(false);
+  const handleConnect = async () => {
+    // Check if MetaMask is installed
+    if (!window.ethereum) {
+      toast.error("MetaMask not detected. Please install MetaMask extension to connect your wallet.");
+      // Redirect to MetaMask download page after short delay
+      setTimeout(() => {
+        window.open('https://metamask.io/download/', '_blank');
+      }, 2000);
+      return;
+    }
+    
+    try {
+      await onConnectWallet();
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Wallet connection error:", error);
+      toast.error("Failed to connect wallet. Please try again.");
+      // Keep modal open to retry
+    }
   };
 
   return (

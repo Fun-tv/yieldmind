@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import ProfileSetup from './ProfileSetup';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -24,26 +25,60 @@ const UserProfile = () => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   };
 
+  const handleConnectWallet = async () => {
+    // Check if MetaMask is installed
+    if (!window.ethereum) {
+      toast.error("MetaMask not detected. Please install MetaMask extension to connect your wallet.");
+      // Redirect to MetaMask download page after short delay
+      setTimeout(() => {
+        window.open('https://metamask.io/download/', '_blank');
+      }, 2000);
+      return;
+    }
+    
+    try {
+      await connectWallet();
+    } catch (error) {
+      console.error("Wallet connection error:", error);
+      toast.error("Failed to connect wallet. Please try again.");
+    }
+  };
+
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center gap-4 bg-[#151926] rounded-xl px-5 py-3 border border-[#232946] cursor-pointer hover:bg-[#1a1e2e] transition">
-            <span className="text-sm text-white/35 font-mono">
-              {user ? formatAddress(user.address) : "Not Connected"}
-            </span>
-            <Avatar className="w-9 h-9 bg-[#222843]">
-              <AvatarFallback className="text-white/50">
-                {user?.username ? user.username[0].toUpperCase() : <User className="w-5 h-5" />}
-              </AvatarFallback>
-            </Avatar>
+            {user ? (
+              <>
+                <span className="text-sm text-white/35 font-mono">
+                  {formatAddress(user.address)}
+                </span>
+                <Avatar className="w-9 h-9 bg-[#222843]">
+                  <AvatarFallback className="text-white/50">
+                    {user.username ? user.username[0].toUpperCase() : <User className="w-5 h-5" />}
+                  </AvatarFallback>
+                </Avatar>
+              </>
+            ) : (
+              <>
+                <span className="text-sm text-white/35">
+                  Not Connected
+                </span>
+                <Avatar className="w-9 h-9 bg-[#222843]">
+                  <AvatarFallback className="text-white/50">
+                    <User className="w-5 h-5" />
+                  </AvatarFallback>
+                </Avatar>
+              </>
+            )}
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-[#151926] border border-[#232946] text-white">
           {!user && (
             <DropdownMenuItem 
               className="flex items-center gap-2 cursor-pointer hover:bg-[#1a1e2e]"
-              onClick={connectWallet}
+              onClick={handleConnectWallet}
               disabled={isLoading}
             >
               <Wallet className="w-4 h-4 text-white/50" />
