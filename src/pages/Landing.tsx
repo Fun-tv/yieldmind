@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Info, BookOpen, ArrowRight, Star, StarHalf, ThumbsUp, LineChart, BarChart, Users, Gauge } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 const Landing = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,7 +148,7 @@ const Landing = () => {
 
       <nav className="w-full px-6 py-5 lg:px-8 border-b border-white/5 backdrop-blur-md fixed top-0 z-50 transition-all duration-300" style={{ backgroundColor: scrollY > 50 ? 'rgba(0, 11, 29, 0.95)' : 'transparent' }}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold tracking-tight bg-gradient-to-r from-[#fff] via-[#e1e1ff] to-[#89a5ff] bg-clip-text text-transparent transition-all duration-500 hover:from-[#89a5ff] hover:to-[#fff]">YIELDMIND</Link>
+          <Link to="/" className="text-2xl font-bold tracking-tight bg-gradient-to-r from-[#4361EE] via-[#e1e1ff] to-[#89a5ff] bg-clip-text text-transparent transition-all duration-500 hover:from-[#89a5ff] hover:to-[#4361EE]">YIELDMIND</Link>
           <div className="hidden md:flex items-center gap-8">
             <Link 
               to="/product" 
@@ -184,7 +185,7 @@ const Landing = () => {
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-32 mt-20 relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-32 mt-20 relative" ref={heroRef}>
         <div 
           className={`grid lg:grid-cols-2 gap-12 items-center ${isVisible ? 'opacity-100' : 'opacity-0'}`} 
           style={{ 
@@ -202,10 +203,10 @@ const Landing = () => {
               <span className="bg-gradient-to-r from-[#fff] to-[#89a5ff] bg-clip-text text-transparent">Next Generation DeFi Platform</span>
             </div>
             <h1 className="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="block bg-gradient-to-r from-[#fff] via-[#e1e1ff] to-[#89a5ff] bg-clip-text text-transparent animate-gradient">
+              <span className="block bg-gradient-to-r from-[#4361EE] via-[#e1e1ff] to-[#89a5ff] bg-clip-text text-transparent animate-gradient">
                 AI-powered
               </span>
-              <span className="block bg-gradient-to-r from-[#fff] via-[#e1e1ff] to-[#89a5ff] bg-clip-text text-transparent animate-gradient" style={{ animationDelay: '0.3s' }}>
+              <span className="block bg-gradient-to-r from-[#4361EE] via-[#e1e1ff] to-[#89a5ff] bg-clip-text text-transparent animate-gradient" style={{ animationDelay: '0.3s' }}>
                 DeFi agent
               </span>
             </h1>
@@ -552,8 +553,9 @@ const Landing = () => {
         </div>
       </footer>
       
-      {/* CSS Keyframes */}
-      <style jsx>{`
+      {/* CSS Keyframes - Remove the 'jsx' property which caused the error */}
+      <style>
+        {`
         @keyframes float {
           0%, 100% {
             transform: translateY(0);
@@ -588,7 +590,8 @@ const Landing = () => {
           background-size: 200% 200%;
           animation: gradient 4s ease infinite;
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };
