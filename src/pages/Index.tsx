@@ -10,7 +10,7 @@ import ActivityLog from '@/components/ActivityLog';
 
 const Index = () => {
   return (
-    <PageLayout title="What would you like to do today?">
+    <PageLayout title="Welcome to Dicsy Dashboard" subtitle="Your AI-powered DeFi optimization center">
       <SearchBar />
       <QuickActions />
 
